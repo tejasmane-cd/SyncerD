@@ -9,6 +9,6 @@ destinations:
     region: us-east-1
 
 images:
-  - name: library/nginx
+  - name: hello-world
     tags:
       - latest
