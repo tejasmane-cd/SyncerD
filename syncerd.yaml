@@ -9,6 +9,6 @@ destinations:
     region: us-east-1
 
 images:
-  - name: busybox
+  - name: library/nginx
     tags:
-      - uclibc
+      - latest
