@@ -1,0 +1,13 @@
+source:
+  type: dockerhub
+  registry: docker.io
+
+destinations:
+  - name: local
+    type: generic
+    registry: localhost:5000
+
+images:
+  - name: library/hello-world
+    tags:
+      - latest

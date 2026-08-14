@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "updated_at": "2026-08-14T18:23:46.95133089Z",
+  "synced": {
+    "local": {
+      "library/hello-world": {
+        "latest": "2026-08-14T18:23:46.951305371Z"
+      }
+    }
+  }
+}
