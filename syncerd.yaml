@@ -9,6 +9,6 @@ destinations:
     region: us-east-1
 
 images:
-  - name: hello-world
+  - name: busybox
     tags:
       - latest
