@@ -5,7 +5,7 @@ source:
 destinations:
   - name: library/nginx
     type: ecr
-    registry: 069176179632.dkr.ecr.us-east-1.amazonaws.com/library/nginx
+    registry: 069176179632.dkr.ecr.us-east-1.amazonaws.com
     region: us-east-1
 
 images:
