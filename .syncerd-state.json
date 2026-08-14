@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "updated_at": "2026-08-14T18:23:46.95133089Z",
+  "updated_at": "2026-08-14T18:57:57.688320048Z",
   "synced": {
-    "local": {
-      "library/hello-world": {
-        "latest": "2026-08-14T18:23:46.951305371Z"
+    "my-ecr": {
+      "library/busybox": {
+        "uclibc": "2026-08-14T18:57:57.688285192Z"
       }
     }
   }
