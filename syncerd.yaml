@@ -3,9 +3,9 @@ source:
   registry: docker.io
 
 destinations:
-  - name: my-ecr
+  - name: library/nginx
     type: ecr
-    registry: 069176179632.dkr.ecr.us-east-1.amazonaws.com
+    registry: 069176179632.dkr.ecr.us-east-1.amazonaws.com/library/nginx
     region: us-east-1
 
 images:
