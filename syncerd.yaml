@@ -7,6 +7,9 @@ destinations:
     type: ecr
     registry: 069176179632.dkr.ecr.us-east-1.amazonaws.com
     region: us-east-1
+  - name: my-ghcr
+    type: ghcr
+    registry: ghcr.io/tejasmane-cd
 
 images:
   - name: library/nginx

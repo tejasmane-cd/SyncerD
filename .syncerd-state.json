@@ -1,10 +1,13 @@
 {
   "version": 1,
-  "updated_at": "2026-08-14T20:40:06.666862568Z",
+  "updated_at": "2026-08-21T11:59:35.02049326Z",
   "synced": {
     "my-ecr": {
       "library/busybox": {
         "uclibc": "2026-08-14T20:40:06.666852048Z"
+      },
+      "library/nginx": {
+        "latest": "2026-08-21T11:59:01.750299316Z"
       }
     }
   }

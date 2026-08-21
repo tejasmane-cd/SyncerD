@@ -1,5 +1,9 @@
 name: SyncerD Sync
 
+permissions:
+  contents: read
+  packages: write
+
 on:
   schedule:
     - cron: '0 2 * * *'  # Run daily at 2 AM UTC
@@ -14,10 +18,19 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         env:
-          DOCKER_CONFIG: ${{ runner.temp }}/.docker
+          DOCKER_CONFIG: ${{ github.workspace }}/.docker
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        env:
+          DOCKER_CONFIG: ${{ github.workspace }}/.docker
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -29,13 +42,13 @@ jobs:
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
         env:
-          DOCKER_CONFIG: ${{ runner.temp }}/.docker
+          DOCKER_CONFIG: ${{ github.workspace }}/.docker
         with:
           registries: "069176179632"
       
       - uses: clouddrove/syncerd@v0.1.1
         env:
-          DOCKER_CONFIG: /github/runner_temp/.docker
+          DOCKER_CONFIG: /github/workspace/.docker
         with:
           config: syncerd.yaml
           once: "true"
