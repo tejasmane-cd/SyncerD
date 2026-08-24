@@ -7,6 +7,7 @@ git:
     - name: bitbucket
       type: bitbucket
       owner: tejasmane-syncerd
+      email: tejas.mane@clouddrove.com
 
   mirrors:
     - name: github-to-bitbucket
