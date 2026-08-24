@@ -27,5 +27,4 @@ jobs:
           log-format: "text"
         env:
           SYNCERD_GIT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SYNCERD_GIT_BITBUCKET_EMAIL: ${{ secrets.SYNCERD_GIT_BITBUCKET_EMAIL }}
           SYNCERD_GIT_BITBUCKET_TOKEN: ${{ secrets.SYNCERD_GIT_BITBUCKET_TOKEN }}
