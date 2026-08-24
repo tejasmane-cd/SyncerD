@@ -12,6 +12,9 @@ git:
     - name: github-to-codecommit
       source: github
       destination: codecommit
+      filters:
+        include:
+          - SyncerD
       create_missing: true
 
   work_dir: ./syncerd-git-cache
