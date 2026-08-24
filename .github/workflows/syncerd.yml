@@ -26,8 +26,11 @@ jobs:
       - name: Sync GitHub to AWS CodeCommit
         uses: clouddrove/syncerd@v0.1.1
         with:
+          command: git-sync
           config: syncerd.yaml
           once: "true"
           dry-run: "true"
         env:
           SYNCERD_GIT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SYNCERD_GIT_CODECOMMIT_GIT_USERNAME: ${{ secrets.CODECOMMIT_GIT_USERNAME }}
+          SYNCERD_GIT_CODECOMMIT_GIT_PASSWORD: ${{ secrets.CODECOMMIT_GIT_PASSWORD }}

@@ -6,7 +6,7 @@ git:
 
     - name: codecommit
       type: codecommit
-      owner: 069176179632
+      region: us-east-1
 
   mirrors:
     - name: github-to-codecommit
