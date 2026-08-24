@@ -24,8 +24,8 @@ jobs:
           config: syncerd.yaml
           once: "true"
           dry-run: "false"
+          log-format: "text"
         env:
           SYNCERD_GIT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SYNCERD_GIT_BITBUCKET_USERNAME: ${{ secrets.SYNCERD_GIT_BITBUCKET_USERNAME }}
-          SYNCERD_GIT_BITBUCKET_PASSWORD: ${{ secrets.SYNCERD_GIT_BITBUCKET_PASSWORD }}
+          SYNCERD_GIT_BITBUCKET_EMAIL: ${{ secrets.SYNCERD_GIT_BITBUCKET_EMAIL }}
           SYNCERD_GIT_BITBUCKET_TOKEN: ${{ secrets.SYNCERD_GIT_BITBUCKET_TOKEN }}
