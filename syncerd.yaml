@@ -4,14 +4,14 @@ git:
       type: github
       owner: tejasmane-cd
 
-    - name: codecommit
-      type: codecommit
-      region: us-east-1
+    - name: bitbucket
+      type: bitbucket
+      workspace: YOUR_BITBUCKET_WORKSPACE
 
   mirrors:
-    - name: github-to-codecommit
+    - name: github-to-bitbucket
       source: github
-      destination: codecommit
+      destination: bitbucket
       filters:
         include:
           - SyncerD
