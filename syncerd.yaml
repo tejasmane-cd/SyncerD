@@ -6,7 +6,7 @@ git:
 
     - name: bitbucket
       type: bitbucket
-      workspace: YOUR_BITBUCKET_WORKSPACE
+      owner: tejasmane-syncerd
 
   mirrors:
     - name: github-to-bitbucket
