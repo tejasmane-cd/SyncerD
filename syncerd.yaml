@@ -17,6 +17,8 @@ git:
         include:
           - SyncerD
       create_missing: true
+      visibility: private
+      push_mode: mirror
 
   work_dir: ./syncerd-git-cache
   state_path: ./syncerd-git-cache/git-state.json
