@@ -1,17 +1,18 @@
-source:
-  type: dockerhub
-  registry: docker.io
+git:
+  providers:
+    - name: github
+      type: github
+      owner: tejasmane-cd
 
-destinations:
-  - name: my-ecr
-    type: ecr
-    registry: 069176179632.dkr.ecr.us-east-1.amazonaws.com
-    region: us-east-1
-  - name: my-ghcr
-    type: ghcr
-    registry: ghcr.io/tejasmane-cd
+    - name: codecommit
+      type: codecommit
+      owner: 069176179632
 
-images:
-  - name: library/busybox
-    tags:
-      - "1.36"
+  mirrors:
+    - name: github-to-codecommit
+      source: github
+      destination: codecommit
+      create_missing: true
+
+  work_dir: ./syncerd-git-cache
+  state_path: ./syncerd-git-cache/git-state.json
