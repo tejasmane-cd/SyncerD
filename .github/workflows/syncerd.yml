@@ -17,6 +17,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Test Bitbucket Authentication
+        run: |
+          echo "Testing Bitbucket API authentication..."
+
+          response=$(curl -s \
+            -o /tmp/bitbucket-response.json \
+            -w "%{http_code}" \
+            -u "${SYNCERD_GIT_BITBUCKET_EMAIL}:${SYNCERD_GIT_BITBUCKET_TOKEN}" \
+            "https://api.bitbucket.org/2.0/user")
+
+          echo "HTTP Status: $response"
+
+          if [ "$response" != "200" ]; then
+            echo "Bitbucket authentication failed"
+            cat /tmp/bitbucket-response.json
+            exit 1
+          fi
+
+          echo "Bitbucket authentication successful"
+
+          rm -f /tmp/bitbucket-response.json
+        env:
+          SYNCERD_GIT_BITBUCKET_EMAIL: ${{ secrets.SYNCERD_GIT_BITBUCKET_EMAIL }}
+          SYNCERD_GIT_BITBUCKET_TOKEN: ${{ secrets.SYNCERD_GIT_BITBUCKET_TOKEN }}
+
       - name: Sync GitHub to Bitbucket
         uses: clouddrove/syncerd@v0.1.1
         with:
@@ -24,26 +49,8 @@ jobs:
           config: syncerd.yaml
           once: "true"
           dry-run: "false"
-          report: "sync-report.json"
-          log-format: "json"
+          log-format: "text"
         env:
           SYNCERD_GIT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SYNCERD_GIT_BITBUCKET_EMAIL: ${{ secrets.SYNCERD_GIT_BITBUCKET_EMAIL }}
           SYNCERD_GIT_BITBUCKET_TOKEN: ${{ secrets.SYNCERD_GIT_BITBUCKET_TOKEN }}
-
-      - name: Show Sync Report
-        if: always()
-        run: |
-          echo "===== SyncerD Report ====="
-          if [ -f sync-report.json ]; then
-            cat sync-report.json
-          else
-            echo "sync-report.json was not generated"
-          fi
-
-      - name: Upload Sync Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: syncerd-report
-          path: sync-report.json
-          if-no-files-found: ignore
