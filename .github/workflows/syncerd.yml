@@ -6,7 +6,8 @@ permissions:
 on:
   push:
     branches:
-      - test/github-to-bitbucket
+      - main
+      - feature/syncerd-bitbucket-test
 
 jobs:
   sync:
