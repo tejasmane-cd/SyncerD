@@ -25,17 +25,13 @@ jobs:
           audience: sts.amazonaws.com
 
       - name: Verify AWS identity
-        run: |
-          aws sts get-caller-identity
+        run: aws sts get-caller-identity
 
       - name: SyncerD CodeCommit to Azure DevOps
         uses: clouddrove/syncerd@v0.2.2
         env:
-          # CodeCommit source credentials from GitHub Secrets
           SYNCERD_GIT_SOURCE_GIT_USERNAME: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_USERNAME }}
           SYNCERD_GIT_SOURCE_GIT_PASSWORD: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_PASSWORD }}
-
-          # Azure DevOps destination credentials from GitHub Secrets
           SYNCERD_GIT_DESTINATION_TOKEN: ${{ secrets.SYNCERD_GIT_ADO_TOKEN }}
 
         with:
