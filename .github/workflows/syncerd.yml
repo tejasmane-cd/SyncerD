@@ -1,4 +1,4 @@
-name: SyncerD GitHub to Azure DevOps
+name: SyncerD Azure DevOps to Azure DevOps
 
 on:
   push:
@@ -18,22 +18,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: SyncerD GitHub to Azure DevOps
+      - name: SyncerD Azure DevOps to Azure DevOps
         uses: clouddrove/syncerd@v0.2.2
         env:
-          SYNCERD_GIT_GITHUB_TOKEN: ${{ secrets.SYNCERD_GIT_GITHUB_SOURCE_TOKEN }}
-          SYNCERD_GIT_ADO_TOKEN: ${{ secrets.SYNCERD_GIT_ADO_TOKEN }}
+          SYNCERD_GIT_SOURCE_TOKEN: ${{ secrets.SYNCERD_GIT_ADO_TOKEN }}
+          SYNCERD_GIT_DESTINATION_TOKEN: ${{ secrets.SYNCERD_GIT_ADO_TOKEN }}
 
         with:
           command: git-sync
           config: syncerd.yaml
           once: "true"
           dry-run: "false"
-          report: syncerd-report/github-to-azure.json
+          report: syncerd-report/azure-to-azure.json
           log-format: text
 
       - name: Show SyncerD report
         if: always()
         run: |
           sudo ls -la syncerd-report || true
-          sudo cat syncerd-report/github-to-azure.json || true
+          sudo cat syncerd-report/azure-to-azure.json || true
