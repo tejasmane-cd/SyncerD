@@ -1,2 +1,2 @@
 Testing SyncerD Git branch synchronization
-hola# GitHub to CodeCommit test
+hola# GitHub to CodeCommit test hola goal
