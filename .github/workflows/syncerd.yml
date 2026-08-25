@@ -1,12 +1,15 @@
-name: SyncerD CodeCommit to GitHub
+name: SyncerD CodeCommit to CodeCommit
 
 on:
   push:
     branches:
       - feature/syncerd-github-to-codecommit-test
+
+  workflow_dispatch:
+
 permissions:
   id-token: write
-  contents: write
+  contents: read
 
 jobs:
   git-sync:
@@ -16,63 +19,35 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # TEMPORARY: Check exactly what GitHub puts in the OIDC token
-      - name: Debug GitHub OIDC claims
-        env:
-          AUDIENCE: sts.amazonaws.com
-        run: |
-          TOKEN_JSON=$(curl -sS \
-            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=$AUDIENCE")
-
-          ID_TOKEN=$(echo "$TOKEN_JSON" | jq -r '.value')
-
-          echo "$ID_TOKEN" \
-            | awk -F. '{print $2}' \
-            | base64 -d 2>/dev/null \
-            | jq '{
-                iss,
-                aud,
-                sub,
-                repository,
-                repository_id,
-                repository_owner,
-                repository_owner_id,
-                ref,
-                ref_type
-              }'
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
-          audience: sts.amazonaws.com
 
       - name: Verify AWS identity
         run: |
           aws sts get-caller-identity
 
-      - name: SyncerD CodeCommit to GitHub
+      - name: SyncerD CodeCommit to CodeCommit
         uses: clouddrove/syncerd@v0.2.2
         env:
-          # CodeCommit SOURCE
           SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_USERNAME: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_USERNAME }}
           SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_PASSWORD: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_PASSWORD }}
 
-          # GitHub DESTINATION
-          SYNCERD_GIT_GITHUB_DESTINATION_TOKEN: ${{ secrets.SYNCERD_GIT_GITHUB_DESTINATION_TOKEN }}
+          SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_USERNAME: ${{ secrets.SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_USERNAME }}
+          SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_PASSWORD: ${{ secrets.SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_PASSWORD }}
 
         with:
           command: git-sync
           config: syncerd.yaml
           once: "true"
           dry-run: "false"
-          report: syncerd-report/codecommit-to-github.json
+          report: syncerd-report/codecommit-to-codecommit.json
           log-format: text
 
       - name: Show SyncerD report
         if: always()
         run: |
           sudo ls -la syncerd-report || true
-          sudo cat syncerd-report/codecommit-to-github.json || true
+          sudo cat syncerd-report/codecommit-to-codecommit.json || true
