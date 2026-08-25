@@ -12,9 +12,13 @@ git:
     - name: codecommit-to-codecommit
       source: codecommit-source
       destination: codecommit-destination
+
       filters:
         include:
           - "SyncerD-GitHub-CodeCommit-Destination"
+
+      name_template: "SyncerD-GitHubActions"
+
       create_missing: true
       adopt: true
 
