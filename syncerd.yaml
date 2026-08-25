@@ -2,6 +2,7 @@ git:
   providers:
     - name: source
       type: gitlab
+      owner: clouddrove-group-tejas
 
     - name: destination
       type: azuredevops
