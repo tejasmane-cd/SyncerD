@@ -1,16 +1,16 @@
 git:
   providers:
     - name: source
-      type: gitlab
-      owner: clouddrove-group-tejas
-
-    - name: destination
       type: azuredevops
       owner: clouddrove-sandbox
       project: testing
 
+    - name: destination
+      type: gitlab
+      owner: clouddrove-group-tejas
+
   mirrors:
-    - name: gitlab-to-azure
+    - name: azure-to-gitlab
       source: source
       destination: destination
 
