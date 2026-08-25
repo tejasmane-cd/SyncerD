@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   git-sync:
@@ -18,13 +19,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::924144197303:role/SyncerD-GitHubActions
+          aws-region: us-east-1
+
+      - name: Verify AWS identity
+        run: |
+          aws sts get-caller-identity
+
       - name: SyncerD Azure DevOps to AWS CodeCommit
         uses: clouddrove/syncerd@v0.2.2
         env:
-          # Azure DevOps source PAT
           SYNCERD_GIT_SOURCE_TOKEN: ${{ secrets.SYNCERD_GIT_ADO_TOKEN }}
 
-          # AWS CodeCommit HTTPS Git credentials
           SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_USERNAME: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_USERNAME }}
           SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_PASSWORD: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_PASSWORD }}
 
@@ -32,7 +41,7 @@ jobs:
           command: git-sync
           config: syncerd.yaml
           once: "true"
-          dry-run: "false"
+          dry-run: "true"
           report: syncerd-report/azure-to-codecommit.json
           log-format: text
 

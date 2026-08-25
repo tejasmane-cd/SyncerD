@@ -5,19 +5,17 @@ git:
       owner: clouddrove-sandbox
       project: testing
 
-    - name: codecommit-source
+    - name: destination
       type: codecommit
       region: us-east-1
 
   mirrors:
     - name: azure-to-codecommit
       source: source
-      destination: codecommit-source
-
-      filters:
-        include:
-          - "SyncerD-Azure-Source"
-
+      destination: destination
+      repositories:
+        - source: SyncerD-Azure-Source
+          destination: SyncerD-Azure-Source
       create_missing: true
       adopt: true
 
