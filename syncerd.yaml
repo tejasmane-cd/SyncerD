@@ -13,9 +13,11 @@ git:
     - name: azure-to-codecommit
       source: source
       destination: destination
+
       repositories:
-        - source: SyncerD-Azure-Source
-          destination: SyncerD-Azure-Source
+        - source: "SyncerD-Azure-Source"
+          destination: "SyncerD-Azure-Source"
+
       create_missing: true
       adopt: true
 
