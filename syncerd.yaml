@@ -1,8 +1,7 @@
 git:
   providers:
     - name: source
-      type: codecommit
-      region: us-east-1
+      type: gitlab
 
     - name: destination
       type: azuredevops
@@ -10,13 +9,13 @@ git:
       project: testing
 
   mirrors:
-    - name: codecommit-to-azure
+    - name: gitlab-to-azure
       source: source
       destination: destination
 
       filters:
         include:
-          - "SyncerD-Azure-Source"
+          - "demo-cre-1"
 
       create_missing: true
       adopt: true
