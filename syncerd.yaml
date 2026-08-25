@@ -5,14 +5,14 @@ git:
       owner: clouddrove-sandbox
       project: testing
 
-    - name: destination
-      type: github
-      owner: tejasmane-cd
+    - name: codecommit-source
+      type: codecommit
+      region: us-east-1
 
   mirrors:
-    - name: azure-to-github
+    - name: azure-to-codecommit
       source: source
-      destination: destination
+      destination: codecommit-source
 
       filters:
         include:

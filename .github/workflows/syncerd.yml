@@ -1,9 +1,11 @@
-name: SyncerD Azure DevOps to GitHub
+name: SyncerD Azure DevOps to AWS CodeCommit
 
 on:
   push:
     branches:
       - feature/syncerd-github-to-azure-test
+
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -16,22 +18,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: SyncerD Azure DevOps to GitHub
+      - name: SyncerD Azure DevOps to AWS CodeCommit
         uses: clouddrove/syncerd@v0.2.2
         env:
+          # Azure DevOps source PAT
           SYNCERD_GIT_SOURCE_TOKEN: ${{ secrets.SYNCERD_GIT_ADO_TOKEN }}
-          SYNCERD_GIT_DESTINATION_TOKEN: ${{ secrets.SYNCERD_GIT_GITHUB_DESTINATION_TOKEN }}
+
+          # AWS CodeCommit HTTPS Git credentials
+          SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_USERNAME: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_USERNAME }}
+          SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_PASSWORD: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_PASSWORD }}
 
         with:
           command: git-sync
           config: syncerd.yaml
           once: "true"
-          dry-run: "false"
-          report: syncerd-report/azure-to-github.json
+          dry-run: "true"
+          report: syncerd-report/azure-to-codecommit.json
           log-format: text
 
       - name: Show SyncerD report
         if: always()
         run: |
           sudo ls -la syncerd-report || true
-          sudo cat syncerd-report/azure-to-github.json || true
+          sudo cat syncerd-report/azure-to-codecommit.json || true
