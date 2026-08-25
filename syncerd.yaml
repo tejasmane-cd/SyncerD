@@ -1,16 +1,16 @@
 git:
   providers:
     - name: source
+      type: codecommit
+      region: us-east-1
+
+    - name: destination
       type: azuredevops
       owner: clouddrove-sandbox
       project: testing
 
-    - name: destination
-      type: codecommit
-      region: us-east-1
-
   mirrors:
-    - name: azure-to-codecommit
+    - name: codecommit-to-azure
       source: source
       destination: destination
 
