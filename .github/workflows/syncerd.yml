@@ -5,8 +5,6 @@ on:
     branches:
       - feature/syncerd-github-to-azure-test
 
-  workflow_dispatch:
-
 permissions:
   contents: read
   id-token: write
@@ -19,23 +17,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Authenticate GitHub Actions with AWS using OIDC
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: arn:aws:iam::924144197303:role/SyncerD-GitHubActions
           aws-region: us-east-1
+          audience: sts.amazonaws.com
 
+      # Verify AWS authentication
       - name: Verify AWS identity
         run: |
           aws sts get-caller-identity
 
+      # Azure DevOps → AWS CodeCommit
       - name: SyncerD Azure DevOps to AWS CodeCommit
         uses: clouddrove/syncerd@v0.2.2
         env:
+          # Azure DevOps PAT
           SYNCERD_GIT_SOURCE_TOKEN: ${{ secrets.SYNCERD_GIT_ADO_TOKEN }}
 
-          SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_USERNAME: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_USERNAME }}
-          SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_PASSWORD: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_PASSWORD }}
+          # CodeCommit IAM HTTPS Git credentials
+          # Existing GitHub secrets are mapped to the names
+          # SyncerD expects from provider name: "destination"
+          SYNCERD_GIT_DESTINATION_GIT_USERNAME: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_USERNAME }}
+          SYNCERD_GIT_DESTINATION_GIT_PASSWORD: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_PASSWORD }}
 
         with:
           command: git-sync
@@ -45,6 +51,7 @@ jobs:
           report: syncerd-report/azure-to-codecommit.json
           log-format: text
 
+      # Show SyncerD report even if sync fails
       - name: Show SyncerD report
         if: always()
         run: |
