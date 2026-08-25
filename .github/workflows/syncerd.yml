@@ -71,4 +71,5 @@ jobs:
       - name: Show SyncerD report
         if: always()
         run: |
-          cat syncerd-report/github-to-codecommit.json || true
+          sudo ls -la syncerd-report || true
+          sudo cat syncerd-report/github-to-codecommit.json || true
