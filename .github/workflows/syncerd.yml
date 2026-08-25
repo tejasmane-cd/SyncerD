@@ -47,7 +47,7 @@ jobs:
           command: git-sync
           config: syncerd.yaml
           once: "true"
-          dry-run: "true"
+          dry-run: "false"
           report: syncerd-report/azure-to-codecommit.json
           log-format: text
 
