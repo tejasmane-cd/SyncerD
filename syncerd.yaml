@@ -6,17 +6,16 @@ git:
       project: testing
 
     - name: destination
-      type: azuredevops
-      owner: clouddrove-sandbox
-      project: testing
+      type: github
+      owner: tejasmane-cd
 
   mirrors:
-    - name: azure-to-azure
+    - name: azure-to-github
       source: source
       destination: destination
       repositories:
-        - source: SyncerD-Azure-Destination
-          destination: SyncerD-Azure-Source
+        - source: SyncerD-Azure-Source
+          destination: SyncerD-GitHub-Destination
       create_missing: true
       adopt: true
 

@@ -1,10 +1,6 @@
-name: SyncerD Azure DevOps to Azure DevOps
+name: SyncerD Azure DevOps to GitHub
 
 on:
-  push:
-    branches:
-      - feature/syncerd-github-to-azure-test
-
   workflow_dispatch:
 
 permissions:
@@ -18,22 +14,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: SyncerD Azure DevOps to Azure DevOps
+      - name: SyncerD Azure DevOps to GitHub
         uses: clouddrove/syncerd@v0.2.2
         env:
           SYNCERD_GIT_SOURCE_TOKEN: ${{ secrets.SYNCERD_GIT_ADO_TOKEN }}
-          SYNCERD_GIT_DESTINATION_TOKEN: ${{ secrets.SYNCERD_GIT_ADO_TOKEN }}
+          SYNCERD_GIT_DESTINATION_TOKEN: ${{ secrets.SYNCERD_GIT_GITHUB_DESTINATION_TOKEN }}
 
         with:
           command: git-sync
           config: syncerd.yaml
           once: "true"
           dry-run: "false"
-          report: syncerd-report/azure-to-azure.json
+          report: syncerd-report/azure-to-github.json
           log-format: text
 
       - name: Show SyncerD report
         if: always()
         run: |
           sudo ls -la syncerd-report || true
-          sudo cat syncerd-report/azure-to-azure.json || true
+          sudo cat syncerd-report/azure-to-github.json || true
