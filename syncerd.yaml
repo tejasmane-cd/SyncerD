@@ -13,6 +13,7 @@ git:
       source: codecommit-source
       destination: codecommit-destination
       create_missing: true
+      adopt: true
 
   work_dir: ./syncerd-git-cache
   state_path: ./syncerd-git-cache/git-state.json
