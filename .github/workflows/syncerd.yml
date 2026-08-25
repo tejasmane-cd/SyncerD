@@ -1,8 +1,9 @@
 name: SyncerD CodeCommit to GitHub
 
 on:
-  workflow_dispatch:
-
+  push:
+    branches:
+      - feature/syncerd-github-to-codecommit-test
 permissions:
   id-token: write
   contents: write
