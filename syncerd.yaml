@@ -13,9 +13,11 @@ git:
     - name: azure-to-github
       source: source
       destination: destination
-      repositories:
-        - source: SyncerD-Azure-Source
-          destination: SyncerD-GitHub-Destination
+
+      filters:
+        include:
+          - "SyncerD-Azure-Source"
+
       create_missing: true
       adopt: true
 
