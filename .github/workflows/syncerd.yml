@@ -22,7 +22,7 @@ jobs:
         uses: clouddrove/syncerd@v0.2.2
         env:
           SYNCERD_GIT_GITHUB_TOKEN: ${{ secrets.SYNCERD_GIT_GITHUB_SOURCE_TOKEN }}
-          SYNCERD_GIT_ADO_TOKEN: ${{ secrets.SYNCERD_AZURE_DESTINATION_GIT_PASSWORD }}
+          SYNCERD_GIT_ADO_TOKEN: ${{ secrets.SYNCERD_GIT_ADO_TOKEN }}
 
         with:
           command: git-sync
