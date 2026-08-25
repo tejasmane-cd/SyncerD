@@ -1,17 +1,18 @@
 git:
   providers:
-    - name: gitlab
-      type: gitlab
-      owner: clouddrove-group-tejas
+    - name: github
+      type: github
+      owner: tejasmane-cd
 
-    - name: codecommit
-      type: codecommit
-      region: us-east-1
+    - name: ado
+      type: azuredevops
+      owner: clouddrove-sandbox
+      project: testing
 
   mirrors:
-    - name: gitlab-to-codecommit
-      source: gitlab
-      destination: codecommit
+    - name: github-to-azure
+      source: github
+      destination: ado
       create_missing: true
       adopt: true
 

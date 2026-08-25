@@ -1,14 +1,13 @@
-name: SyncerD GitLab to CodeCommit
+name: SyncerD GitHub to Azure DevOps
 
 on:
   push:
     branches:
-      - feature/syncerd-codecommit-to-gitlab-test
+      - feature/syncerd-github-to-azure-test
 
   workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: read
 
 jobs:
@@ -19,34 +18,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v6
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: us-east-1
-
-      - name: Verify AWS identity
-        run: |
-          aws sts get-caller-identity
-
-      - name: SyncerD GitLab to CodeCommit
+      - name: SyncerD GitHub to Azure DevOps
         uses: clouddrove/syncerd@v0.2.2
         env:
-          SYNCERD_GIT_GITLAB_TOKEN: ${{ secrets.SYNCERD_GIT_GITLAB_TOKEN }}
-
-          SYNCERD_GIT_CODECOMMIT_GIT_USERNAME: ${{ secrets.SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_USERNAME }}
-          SYNCERD_GIT_CODECOMMIT_GIT_PASSWORD: ${{ secrets.SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_PASSWORD }}
+          SYNCERD_GIT_GH_TOKEN: ${{ secrets.SYNCERD_GIT_GITHUB_SOURCE_TOKEN }}
+          SYNCERD_GIT_ADO_TOKEN: ${{ secrets.SYNCERD_AZURE_DESTINATION_GIT_PASSWORD }}
 
         with:
           command: git-sync
           config: syncerd.yaml
           once: "true"
           dry-run: "false"
-          report: syncerd-report/gitlab-to-codecommit.json
+          report: syncerd-report/github-to-azure.json
           log-format: text
 
       - name: Show SyncerD report
         if: always()
         run: |
           sudo ls -la syncerd-report || true
-          sudo cat syncerd-report/gitlab-to-codecommit.json || true
+          sudo cat syncerd-report/github-to-azure.json || true
