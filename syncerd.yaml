@@ -14,6 +14,9 @@ git:
     - name: azure-to-azure
       source: source
       destination: destination
+      repositories:
+        - source: SyncerD-Azure-Source
+          destination: SyncerD-Azure-Destination
       create_missing: true
       adopt: true
 
