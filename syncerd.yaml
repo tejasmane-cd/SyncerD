@@ -16,7 +16,7 @@ git:
 
       filters:
         include:
-          - "SyncerD-Azure-Source"
+          - "Demo-1"
 
       create_missing: true
       adopt: true
