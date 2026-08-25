@@ -6,21 +6,12 @@ git:
 
     - name: gitlab-destination
       type: gitlab
-      owner: clouddrove-group-tejas
 
   mirrors:
     - name: codecommit-to-gitlab
       source: codecommit-source
       destination: gitlab-destination
-
-      filters:
-        include:
-          - "SyncerD-GitHub-CodeCommit-Destination"
-
-      name_template: "SyncerD-CodeCommit-GitLab"
-
       create_missing: true
-      visibility: private
       adopt: true
 
   work_dir: ./syncerd-git-cache

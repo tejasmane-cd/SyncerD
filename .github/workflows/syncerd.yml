@@ -26,8 +26,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Verify AWS identity
-        run: |
-          aws sts get-caller-identity
+        run: aws sts get-caller-identity
 
       - name: SyncerD CodeCommit to GitLab
         uses: clouddrove/syncerd@v0.2.2
@@ -40,8 +39,8 @@ jobs:
         with:
           command: git-sync
           config: syncerd.yaml
-          once: "true"
-          dry-run: "true"
+          once: true
+          dry-run: false
           report: syncerd-report/codecommit-to-gitlab.json
           log-format: text
 
