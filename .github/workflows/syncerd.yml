@@ -26,7 +26,7 @@ jobs:
           command: git-sync
           config: syncerd.yaml
           once: "true"
-          dry-run: "true"
+          dry-run: "false"
           report: syncerd-report/azure-to-gitlab.json
           log-format: text
 
