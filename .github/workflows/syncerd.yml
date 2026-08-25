@@ -1,7 +1,9 @@
 name: SyncerD Azure DevOps to GitHub
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - feature/syncerd-github-to-azure-test
 
 permissions:
   contents: read
