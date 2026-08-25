@@ -3,7 +3,7 @@ name: SyncerD GitLab to Azure DevOps
 on:
   push:
     branches:
-      - feature/syncerd-gitlab-to-azure-test
+      - feature/syncerd-github-to-azure-test
 
 permissions:
   contents: read
