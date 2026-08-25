@@ -1,4 +1,4 @@
-name: SyncerD GitLab to Azure DevOps
+name: SyncerD Azure DevOps to GitLab
 
 on:
   push:
@@ -16,25 +16,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: SyncerD GitLab to Azure DevOps
+      - name: SyncerD Azure DevOps to GitLab
         uses: clouddrove/syncerd@v0.2.2
         env:
-          # GitLab token
-          SYNCERD_GIT_SOURCE_TOKEN: ${{ secrets.SYNCERD_GIT_GITLAB_TOKEN }}
-
-          # Azure DevOps PAT
-          SYNCERD_GIT_DESTINATION_TOKEN: ${{ secrets.SYNCERD_GIT_ADO_TOKEN }}
+          SYNCERD_GIT_SOURCE_TOKEN: ${{ secrets.SYNCERD_GIT_ADO_TOKEN }}
+          SYNCERD_GIT_DESTINATION_TOKEN: ${{ secrets.SYNCERD_GIT_GITLAB_TOKEN }}
 
         with:
           command: git-sync
           config: syncerd.yaml
           once: "true"
           dry-run: "true"
-          report: syncerd-report/gitlab-to-azure.json
+          report: syncerd-report/azure-to-gitlab.json
           log-format: text
 
       - name: Show SyncerD report
         if: always()
         run: |
           sudo ls -la syncerd-report || true
-          sudo cat syncerd-report/gitlab-to-azure.json || true
+          sudo cat syncerd-report/azure-to-gitlab.json || true
