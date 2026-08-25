@@ -1,9 +1,9 @@
-name: SyncerD CodeCommit to GitLab
+name: SyncerD GitLab to CodeCommit
 
 on:
   push:
     branches:
-      - feature/syncerd-codecommit-to-gitlab-test
+      - feature/syncerd-gitlab-to-codecommit-test
 
   workflow_dispatch:
 
@@ -29,24 +29,24 @@ jobs:
         run: |
           aws sts get-caller-identity
 
-      - name: SyncerD CodeCommit to GitLab
+      - name: SyncerD GitLab to CodeCommit
         uses: clouddrove/syncerd@v0.2.2
         env:
-          SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_USERNAME: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_USERNAME }}
-          SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_PASSWORD: ${{ secrets.SYNCERD_GIT_CODECOMMIT_SOURCE_GIT_PASSWORD }}
+          SYNCERD_GIT_GITLAB_TOKEN: ${{ secrets.SYNCERD_GIT_GITLAB_TOKEN }}
 
-          SYNCERD_GIT_GITLAB_DESTINATION_TOKEN: ${{ secrets.SYNCERD_GL_TOKEN }}
+          SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_USERNAME: ${{ secrets.SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_USERNAME }}
+          SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_PASSWORD: ${{ secrets.SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_PASSWORD }}
 
         with:
           command: git-sync
           config: syncerd.yaml
           once: "true"
           dry-run: "false"
-          report: syncerd-report/codecommit-to-gitlab.json
+          report: syncerd-report/gitlab-to-codecommit.json
           log-format: text
 
       - name: Show SyncerD report
         if: always()
         run: |
           sudo ls -la syncerd-report || true
-          sudo cat syncerd-report/codecommit-to-gitlab.json || true
+          sudo cat syncerd-report/gitlab-to-codecommit.json || true

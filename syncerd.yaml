@@ -1,19 +1,18 @@
 git:
   providers:
-    - name: codecommit-source
-      type: codecommit
-      region: us-east-1
-
-    - name: gitlab-destination
+    - name: gitlab
       type: gitlab
       owner: clouddrove-group-tejas
 
+    - name: codecommit-destination
+      type: codecommit
+      region: us-east-1
+
   mirrors:
-    - name: codecommit-to-gitlab
-      source: codecommit-source
-      destination: gitlab-destination
+    - name: gitlab-to-codecommit
+      source: gitlab
+      destination: codecommit-destination
       create_missing: true
-      adopt: true
 
   work_dir: ./syncerd-git-cache
   state_path: ./syncerd-git-cache/git-state.json
