@@ -1,21 +1,25 @@
 git:
   providers:
-    - name: github
+    - name: github-source
       type: github
       owner: tejasmane-cd
 
-    - name: codecommit
+    - name: codecommit-destination
       type: codecommit
+      owner: "924144197303"
       region: us-east-1
 
   mirrors:
     - name: github-to-codecommit
-      source: github
-      destination: codecommit
+      source: github-source
+      destination: codecommit-destination
+      name_template: "SyncerD-GitHub-CodeCommit-Destination"
       filters:
         include:
           - SyncerD
-      create_missing: true
+      create_missing: false
+      visibility: private
+      push_mode: mirror
 
   work_dir: ./syncerd-git-cache
   state_path: ./syncerd-git-cache/git-state.json
