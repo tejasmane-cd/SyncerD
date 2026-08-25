@@ -5,6 +5,8 @@ on:
     branches:
       - feature/syncerd-github-to-codecommit-test
 
+  workflow_dispatch:
+
 permissions:
   id-token: write
   contents: read
@@ -27,12 +29,15 @@ jobs:
         run: |
           aws sts get-caller-identity
 
-      - name: SyncerD
+      - name: SyncerD Git Sync
         uses: clouddrove/syncerd@v0.2.2
         env:
           SYNCERD_GIT_GITHUB_SOURCE_TOKEN: ${{ secrets.SYNCERD_GIT_GITHUB_SOURCE_TOKEN }}
-          SYNCERD_CODECOMMIT_GIT_USERNAME: ${{ secrets.SYNCERD_CODECOMMIT_GIT_USERNAME }}
-          SYNCERD_CODECOMMIT_GIT_PASSWORD: ${{ secrets.SYNCERD_CODECOMMIT_GIT_PASSWORD }}
+          SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_USERNAME: ${{ secrets.SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_USERNAME }}
+          SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_PASSWORD: ${{ secrets.SYNCERD_GIT_CODECOMMIT_DESTINATION_GIT_PASSWORD }}
         with:
+          command: git-sync
           config: syncerd.yaml
           once: "true"
+          dry-run: "false"
+          report: syncerd-report/github-to-codecommit.json
