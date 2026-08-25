@@ -1,18 +1,19 @@
 git:
   providers:
-    - name: github
-      type: github
-      owner: tejasmane-cd
+    - name: source
+      type: azuredevops
+      owner: clouddrove-sandbox
+      project: testing
 
-    - name: ado
+    - name: destination
       type: azuredevops
       owner: clouddrove-sandbox
       project: testing
 
   mirrors:
-    - name: github-to-azure
-      source: github
-      destination: ado
+    - name: azure-to-azure
+      source: source
+      destination: destination
       create_missing: true
       adopt: true
 
