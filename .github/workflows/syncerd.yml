@@ -3,7 +3,7 @@ name: SyncerD GitLab to CodeCommit
 on:
   push:
     branches:
-      - feature/syncerd-gitlab-to-codecommit-test
+      - feature/syncerd-codecommit-to-gitlab-test
 
   workflow_dispatch:
 
