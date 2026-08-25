@@ -1,21 +1,27 @@
 git:
   providers:
-    - name: github
-      type: github
-      owner: tejasmane-cd
-
-    - name: codecommit
+    - name: codecommit-source
       type: codecommit
       region: us-east-1
 
+    - name: gitlab-destination
+      type: gitlab
+      owner: clouddrove-group-tejas
+
   mirrors:
-    - name: github-to-codecommit
-      source: github
-      destination: codecommit
+    - name: codecommit-to-gitlab
+      source: codecommit-source
+      destination: gitlab-destination
+
       filters:
         include:
-          - SyncerD
+          - "SyncerD-GitHub-CodeCommit-Destination"
+
+      name_template: "SyncerD-CodeCommit-GitLab"
+
       create_missing: true
+      visibility: private
+      adopt: true
 
   work_dir: ./syncerd-git-cache
   state_path: ./syncerd-git-cache/git-state.json
