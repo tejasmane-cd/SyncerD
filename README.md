@@ -1,2 +1,2 @@
 Testing SyncerD Git branch synchronization
-usdhcudw uc
+usdhcudw uc fd d
