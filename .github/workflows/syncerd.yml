@@ -19,6 +19,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # TEMPORARY: Check exactly what GitHub puts in the OIDC token
+      - name: Debug GitHub OIDC claims
+        env:
+          AUDIENCE: sts.amazonaws.com
+        run: |
+          TOKEN_JSON=$(curl -sS \
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=$AUDIENCE")
+
+          ID_TOKEN=$(echo "$TOKEN_JSON" | jq -r '.value')
+
+          echo "$ID_TOKEN" \
+            | awk -F. '{print $2}' \
+            | base64 -d 2>/dev/null \
+            | jq '{
+                iss,
+                aud,
+                sub,
+                repository,
+                repository_id,
+                repository_owner,
+                repository_owner_id,
+                ref,
+                ref_type
+              }'
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6
         with:
@@ -41,3 +67,8 @@ jobs:
           once: "true"
           dry-run: "false"
           report: syncerd-report/github-to-codecommit.json
+
+      - name: Show SyncerD report
+        if: always()
+        run: |
+          cat syncerd-report/github-to-codecommit.json || true
